@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SmartGarden</title>
+<meta name="description" content="Quoi planter, quand, et où vendre la récolte en Guyane : climat réel, El Niño, sols, carburant et prix des marchés. Gratuit.">
+<meta name="theme-color" content="#0D1310">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Aide à la décision · maraîchage en Guyane</div>
+      <h1>SmartGarden</h1>
+      <p class="lede">Quoi planter, quand, et où vendre la récolte. L'appli tient compte de votre terrain, de la météo réelle et des prix.</p>
+    </div>
+    <div class="status">
+      <span class="pill" id="pillPrix"><span class="dot"></span><span id="pillPrixTxt">Prix : estimations</span></span>
+      <span class="pill clim"><span class="dot"></span><span id="pillClim">Climat : relevés récents</span></span>
+      <span class="small muted" id="semaineTxt"></span>
+      <button type="button" class="btn ghost" id="compteBtn" hidden>Se connecter</button>
+    </div>
+  </header>
+
+  <section class="block compte" id="compte" hidden aria-labelledby="compteTitre">
+    <div id="compteOut">
+      <h2 id="compteTitre">Mon compte</h2>
+      <p class="muted">Avec un compte, vos réglages et votre carnet sont sauvegardés et vous suivent sur tous vos appareils. C'est gratuit.</p>
+      <form id="compteForm">
+        <input type="email" id="cEmail" autocomplete="email" placeholder="Votre adresse e-mail" aria-label="Adresse e-mail" required>
+        <input type="password" id="cMdp" autocomplete="current-password" placeholder="Mot de passe (8 caractères minimum)" aria-label="Mot de passe" minlength="8">
+        <div class="row-btns">
+          <button type="submit" class="btn" id="cLogin">Se connecter</button>
+          <button type="button" class="btn ghost" id="cSignup">Créer mon compte</button>
+          <button type="button" class="linkbtn" id="cOubli">Mot de passe oublié ?</button>
+        </div>
+        <div class="msg" id="cMsg" role="status"></div>
+      </form>
+    </div>
+    <div id="compteNewPwd" hidden>
+      <h2>Nouveau mot de passe</h2>
+      <form id="pwdForm"><input type="password" id="cMdp2" autocomplete="new-password" placeholder="Nouveau mot de passe" aria-label="Nouveau mot de passe" minlength="8" required><div class="row-btns"><button type="submit" class="btn">Enregistrer</button></div><div class="msg" id="cMsg2" role="status"></div></form>
+    </div>
+    <div id="compteIn" hidden>
+      <h2>Mon compte</h2>
+      <p>Connecté avec <b id="cQui"></b>. Vos réglages et votre carnet sont sauvegardés automatiquement.</p>
+      <p class="save-state" id="cSave"></p>
+      <div class="row-btns"><button type="button" class="btn ghost" id="cLogout">Se déconnecter</button></div>
+    </div>
+  </section>
+
+  <section class="block onboard" id="onboard" hidden aria-labelledby="obTitle">
+    <div class="ob-top">
+      <div class="eyebrow">Bienvenue · 3 questions pour commencer</div>
+      <div class="ob-steps" aria-hidden="true"><span data-s="1"></span><span data-s="2"></span><span data-s="3"></span></div>
+    </div>
+    <div class="ob-step" data-step="1">
+      <h2 id="obTitle">Où est votre exploitation ?</h2>
+      <p class="muted">Pour connaître la pluie de votre zone, votre sol et la route jusqu'aux marchés.</p>
+      <div class="locrow"><select id="obLieu" aria-label="Commune ou lieu-dit"></select><button type="button" class="btn ghost" id="obGps">Me localiser</button></div>
+      <p class="small muted" id="obLieuInfo" role="status"></p>
+    </div>
+    <div class="ob-step" data-step="2" hidden>
+      <h2>Comment cultivez-vous ?</h2>
+      <p class="muted">Vous pourrez changer plus tard.</p>
+      <div class="ob-choices" id="obCond">
+        <button type="button" data-v="sec"><b>Plein champ, sans arrosage</b><span>Vous comptez sur la pluie</span></button>
+        <button type="button" data-v="irrigue"><b>Plein champ, arrosé</b><span>Vous pouvez arroser en saison sèche</span></button>
+        <button type="button" data-v="abri"><b>Sous abri, arrosé</b><span>Serre ou tunnel qui protège de la pluie</span></button>
+      </div>
+      <label class="small" for="obSurf">Surface que vous voulez planter (m²)</label>
+      <input type="number" id="obSurf" min="10" step="50" inputmode="numeric" class="ob-input">
+    </div>
+    <div class="ob-step" data-step="3" hidden>
+      <h2>Avec quel véhicule allez-vous au marché ?</h2>
+      <p class="muted">Pour calculer le carburant au prix de la préfecture.</p>
+      <div class="ob-choices" id="obVeh">
+        <button type="button" data-v="6"><b>Petite voiture</b><span>environ 6 L aux 100 km</span></button>
+        <button type="button" data-v="10"><b>Pick-up</b><span>environ 10 L aux 100 km</span></button>
+        <button type="button" data-v="13"><b>Camionnette</b><span>environ 13 L aux 100 km</span></button>
+      </div>
+      <div class="seg ob-fuel" id="obFuel" role="group" aria-label="Carburant"><button type="button" data-v="essence">Essence</button><button type="button" data-v="gazole">Diesel</button></div>
+    </div>
+    <div class="ob-nav">
+      <button type="button" class="linkbtn" id="obSkip">Passer</button>
+      <span class="ob-grow"></span>
+      <button type="button" class="btn ghost" id="obBack">Retour</button>
+      <button type="button" class="btn" id="obNext">Suivant</button>
+    </div>
+  </section>
+
+  <details class="settings" id="settings">
+    <summary><span class="set-l"><span class="eyebrow">Mes réglages</span><span id="profil"></span></span><span class="set-r">Modifier</span></summary>
+  <div class="controls" role="group" aria-label="Réglages">
+    <div class="field wide">
+      <label for="lieu">Emplacement de l'exploitation</label>
+      <div class="locrow"><select id="lieu"></select><button type="button" class="btn ghost" id="gps">Me localiser</button></div>
+      <details class="coords"><summary>Saisir des coordonnées GPS</summary>
+        <div class="locrow"><input type="text" id="lat" inputmode="decimal" placeholder="Latitude, ex. 4,572" aria-label="Latitude"><input type="text" id="lon" inputmode="decimal" placeholder="Longitude, ex. -52,468" aria-label="Longitude"><button type="button" class="btn ghost" id="coordGo">Placer</button></div>
+      </details>
+      <span class="small muted" id="lieuInfo" role="status"></span>
+    </div>
+    <div class="field wide">
+      <span class="lbl" id="lblCond">Comment vous cultivez</span>
+      <div class="seg" id="conduite" role="group" aria-labelledby="lblCond">
+        <button type="button" data-v="sec">Plein champ, sans arrosage</button>
+        <button type="button" data-v="irrigue">Plein champ, arrosé</button>
+        <button type="button" data-v="abri">Sous abri, arrosé</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="surface">Surface (m²)</label>
+      <input type="number" id="surface" min="10" step="50" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label for="vendu">Part de la récolte que vous vendez (%)</label>
+      <input type="number" id="vendu" min="10" max="100" step="5" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label for="parcSel">Parcelle</label>
+      <select id="parcSel"></select>
+    </div>
+    <div class="field wide">
+      <label for="basse">Part de la parcelle en terre basse : <span id="basseV" class="num"></span></label>
+      <input type="range" id="basse" min="0" max="100" step="10">
+      <span class="small muted" id="solInfo"></span>
+    </div>
+    <div class="field">
+      <span class="lbl" id="lblMo">Votre temps de travail</span>
+      <div class="seg" id="mo" role="group" aria-labelledby="lblMo">
+        <button type="button" data-v="smic">Compté au SMIC</button>
+        <button type="button" data-v="famille">Non compté</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="conso">Consommation du véhicule (L/100 km)</label>
+      <input type="number" id="conso" min="3" max="40" step="0.5" inputmode="decimal">
+    </div>
+    <div class="field">
+      <span class="lbl" id="lblFuel">Carburant du véhicule</span>
+      <div class="seg" id="fuel" role="group" aria-labelledby="lblFuel">
+        <button type="button" data-v="essence">Essence</button>
+        <button type="button" data-v="gazole">Diesel</button>
+      </div>
+      <span class="small muted" id="fuelInfo"></span>
+    </div>
+    <div class="field wide">
+      <span class="lbl" id="lblAnim">Animaux et insectes nuisibles</span>
+      <div class="seg" id="pression" role="group" aria-labelledby="lblAnim">
+        <button type="button" data-v="faible">Peu (terrain clôturé)</button>
+        <button type="button" data-v="moyenne">Moyen</button>
+        <button type="button" data-v="forte">Beaucoup (près de la forêt)</button>
+      </div>
+    </div>
+    <div class="field">
+      <span class="lbl" id="lblMetric">Comparer les légumes</span>
+      <div class="seg" id="metric" role="group" aria-labelledby="lblMetric">
+        <button type="button" data-v="mois">Par mois de terrain</button>
+        <button type="button" data-v="cycle">Par récolte</button>
+      </div>
+      <span class="small muted" id="metricInfo"></span>
+    </div>
+    <div class="field">
+      <span class="lbl" id="lblScen">Niveau de prudence</span>
+      <div class="seg" id="scenario" role="group" aria-labelledby="lblScen">
+        <button type="button" data-v="moyenne">Normal</button>
+        <button type="button" data-v="prudent">Prudent</button>
+      </div>
+      <span class="small muted" id="scenInfo"></span>
+    </div>
+    <div class="field wide">
+      <span class="lbl" id="lblCats">Légumes à afficher</span>
+      <div class="chips" id="cats" role="group" aria-labelledby="lblCats"></div>
+    </div>
+    <details class="adv">
+      <summary>Réglages avancés (déjà remplis par défaut)</summary>
+      <div class="adjust">
+        <div class="field"><label for="trips">Allers-retours au marché par semaine de récolte</label><input type="number" id="trips" min="1" max="7" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="place">Frais de place par jour de marché (€)</label><input type="number" id="place" min="0" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="usure">Usure et entretien du véhicule (€/km)</label><input type="number" id="usure" min="0" step="0.01" inputmode="decimal"></div>
+        <div class="field"><label for="taux">Valeur d'une heure de travail (€)</label><input type="number" id="taux" min="0" step="0.1" inputmode="decimal"></div>
+      </div>
+    </details>
+    <div class="set-foot"><button type="button" class="linkbtn" id="obAgain">Revoir le guide de départ</button></div>
+  </div>
+  </details>
+
+  <div class="enso" id="enso" role="note"></div>
+
+  <section class="block" id="now">
+    <div class="block-head">
+      <h2 id="nowTitle">À planter cette semaine</h2>
+      <p id="nowSub"></p>
+    </div>
+    <div class="reco-grid" id="recoList"></div>
+    <div class="avoid-wrap">
+      <h3 id="avoidTitle">À éviter cette semaine</h3>
+      <ul class="avoid-grid" id="avoidList"></ul>
+    </div>
+  </section>
+
+  <section class="block" id="carnet">
+    <div class="block-head">
+      <h2>Mon carnet</h2>
+      <p>Notez vos parcelles, ce que vous plantez, récoltez et vendez. L'appli s'en sert pour la rotation, vous rappelle la date de récolte et s'ajuste à votre ferme.</p>
+    </div>
+    <div class="carnet-grid">
+      <div class="carnet-col">
+        <h3>Mes parcelles</h3>
+        <ul class="plist" id="parcList"></ul>
+        <form id="parcForm" class="miniform">
+          <div class="locrow"><input id="pNom" placeholder="Nom, ex. Parcelle du bas" aria-label="Nom de la parcelle" required><input id="pSurf" type="number" min="10" step="10" placeholder="Surface en m²" aria-label="Surface en m²" required></div>
+          <label class="small" for="pBasse">Part en terre basse : <span id="pBasseV" class="num">30 %</span></label>
+          <input id="pBasse" type="range" min="0" max="100" step="10" value="30">
+          <button class="btn ghost" type="submit">Ajouter la parcelle</button>
+        </form>
+      </div>
+      <div class="carnet-col">
+        <h3>Mes plantations</h3>
+        <form id="plForm" class="miniform">
+          <div class="locrow"><select id="plCult" aria-label="Culture"></select><select id="plParc" aria-label="Parcelle"></select></div>
+          <div class="locrow"><input id="plDate" type="date" aria-label="Date de plantation"><input id="plSurf" type="number" min="1" placeholder="Surface en m²" aria-label="Surface plantée en m²"><button class="btn" type="submit">J'ai planté</button></div>
+          <div class="msg" id="plMsg" role="status"></div>
+        </form>
+        <ul class="plist" id="plList"></ul>
+        <h3>Ce que l'appli a appris de votre ferme</h3>
+        <ul class="small" id="carnetRes"></ul>
+      </div>
+    </div>
+    <p class="note">Vos notes restent sur cet appareil pour l'instant. Avec les comptes de la future web app, elles seront sauvegardées et mises en commun de façon anonyme pour améliorer le modèle de tous.</p>
+  </section>
+
+  <section class="block" id="annee">
+    <div class="block-head">
+      <h2>Calendrier de l'année</h2>
+      <p>Une ligne par légume, une case par semaine de plantation. Vert : ça rapporte. Orange : ça fait perdre de l'argent. Le point : la meilleure semaine. Touchez une case pour voir le détail.</p>
+    </div>
+    <div class="legend" id="heatLegend"></div>
+    <div class="scroll-x"><div class="heat" id="heat" role="group" aria-label="Marge attendue par culture et semaine de plantation"></div></div>
+  </section>
+
+  <section class="block" id="detail">
+    <div class="detail-head">
+      <div>
+        <div class="eyebrow" id="dCat"></div>
+        <h2 id="dTitle"></h2>
+        <div class="sowday" id="dSow"></div>
+      </div>
+      <div class="detail-pick">
+        <div class="field">
+          <label for="dCrop">Culture</label>
+          <select id="dCrop"></select>
+        </div>
+        <div class="field" style="min-width:240px">
+          <label for="dWeek">Semaine de plantation : <span id="dWeekTxt" class="num"></span></label>
+          <input type="range" id="dWeek" min="0" max="51" step="1">
+        </div>
+        <button type="button" class="btn ghost" id="goBest">Meilleure semaine</button>
+        <button type="button" class="btn" id="jePlante">Je plante</button>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div>
+      <div class="chart-title">Ce que vous gagnez selon la semaine où vous plantez <span id="chartUnit"></span></div>
+      <div class="scroll-x">
+        <div class="bars" id="bars"></div>
+        <div class="xaxis" id="xaxis"></div>
+        <div class="rainstrip" id="rain"></div>
+      </div>
+      <div class="chart-legend"><span><i class="lb"></i>gain, année normale</span><span><i class="ln"></i>perte, année normale</span><span><i class="lp"></i>année difficile (4 années sur 5 font mieux)</span><span><i class="lbest"></i>meilleure semaine</span><span><i class="lr"></i>pluie moyenne de la semaine, 11 dernières saisons</span></div>
+    </div>
+    <div class="two">
+      <div>
+        <div class="chart-title">Où vendre <span id="mktSub"></span></div>
+        <div class="scroll-x"><table id="mkt"></table></div>
+        <p class="note" id="mktNote"></p>
+      </div>
+      <div>
+        <div class="chart-title">Pourquoi ce chiffre <span>en moyenne sur les années simulées</span></div>
+        <ul class="factors" id="factors"></ul>
+      </div>
+    </div>
+    <div>
+      <div class="chart-title">Lune autour de la plantation <span id="moonSub"></span></div>
+      <div class="scroll-x"><div class="moonrow" id="moonrow"></div></div>
+    </div>
+    <details id="adjustBox">
+      <summary>Ajuster à ma ferme</summary>
+      <div class="inner">
+        <p class="note">Remplacez les valeurs de référence par vos propres chiffres. Ils restent enregistrés dans ce navigateur.</p>
+        <div class="adjust">
+          <div class="field"><label for="aRdt">Rendement (kg/m²)</label><input type="number" id="aRdt" step="0.1" min="0"></div>
+          <div class="field"><label for="aPrix">Prix moyen à Cayenne (€/kg)</label><input type="number" id="aPrix" step="0.1" min="0"></div>
+          <div class="field"><label for="aCout">Intrants hors main-d'œuvre (€/m²)</label><input type="number" id="aCout" step="0.1" min="0"></div>
+          <div class="field"><label for="aH">Heures de travail pour 100 m²</label><input type="number" id="aH" step="1" min="0"></div>
+          <div class="field"><label for="aCycle">Plantation à 1re récolte (jours)</label><input type="number" id="aCycle" step="1" min="10"></div>
+          <div class="field"><label for="aAnim">Pertes animaux et ravageurs (%)</label><input type="number" id="aAnim" step="1" min="0" max="90"></div>
+        </div>
+        <div class="row-btns"><button type="button" class="btn ghost" id="aReset">Revenir aux valeurs de référence</button></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="block" id="climat">
+    <div class="block-head">
+      <h2 id="cTitle">Climat de la zone</h2>
+      <p id="cSrc"></p>
+    </div>
+    <div class="climsum" id="climSum"></div>
+    <div class="scroll-x"><table class="clim" id="climTable"></table></div>
+    <p class="note">Barre bleue : moyenne des 11 dernières saisons. Colonne « Attendu » : pluie prévue selon la saison annoncée. Trait noir : normale 1991-2020. Trait clair : de l'année la plus sèche à la plus humide.</p>
+  </section>
+
+  <section class="block" id="hypotheses">
+    <div class="block-head">
+      <h2>Comment la marge est calculée</h2>
+      <p>Valeurs de départ pour chaque culture, en plein champ, sol moyen, pression moyenne des animaux. Ce sont des estimations d'ordre de grandeur, pas des références officielles : remplacez-les par vos chiffres dans « Ajuster à ma ferme ». Les lignes surlignées utilisent déjà vos valeurs.</p>
+    </div>
+    <div class="scroll-x"><table class="hyp" id="hypTable"></table></div>
+    <p class="note" id="hypNote"></p>
+  </section>
+
+  <section class="block" id="donnees">
+    <div class="block-head">
+      <h2>Données et méthode</h2>
+      <p id="dataStatus"></p>
+    </div>
+    <div class="data-grid">
+      <div class="prose">
+        <h3>Étapes du calcul</h3>
+        <ol>
+          <li><b>Climat et saison annoncée.</b> Chaque semaine de plantation est simulée avec la pluie et les températures réellement mesurées pendant chacune des onze dernières saisons dans votre zone (depuis septembre 2015). Quand la NOAA annonce un épisode El Niño ou La Niña, les saisons passées qui lui ressemblent comptent davantage pour les récoltes des mois concernés. Chaque saison est combinée à trois situations de marché (prix bas, normal, haut) : l'appli affiche la moyenne, l'année difficile (seulement 1 année sur 5 fait moins bien) et le nombre d'années rentables sur 10.</li>
+          <li><b>Durée de culture.</b> Durée de référence en bonnes conditions, allongée quand le ciel est couvert ou quand la température sort de la plage idéale.</li>
+          <li><b>Sol.</b> D'après la géologie du BRGM, chaque lieu a un sol de terre haute (socle ferrallitique ou sable blanc de savane) et un sol de terre basse (argile marine, pégasse ou alluvions). La part de la parcelle en terre basse mélange les deux : un sol mal drainé aggrave l'excès de pluie, un sable sèche plus vite et demande plus d'eau.</li>
+          <li><b>Rendement.</b> Rendement de référence, réduit semaine par semaine par l'excès de pluie, l'humidité (maladies), le manque d'eau sans irrigation et la chaleur, puis par les animaux et ravageurs et par la rotation : une solanacée replantée moins de deux ans après une autre au même endroit risque le flétrissement bactérien.</li>
+          <li><b>Prix.</b> Prix de référence multiplié par la saisonnalité : rareté en grande saison des pluies, abondance en saison sèche, hausse avant Pâques et Pentecôte pour les légumes du bouillon d'awara. Le prix réagit aussi à la production : quand la météo fait chuter les récoltes de tous, il monte, et il baisse quand tout le monde récolte bien (élasticité 0,4). S'y ajoute un aléa de marché de ±15 % (surproduction, arrivages d'importation). Les mercuriales de la DAAF remplacent ces estimations dès qu'elles sont intégrées, et l'aléa est alors mesuré sur les relevés.</li>
+          <li><b>Marché et transport.</b> Distance par la route entre votre exploitation et chaque marché, allers-retours pendant la récolte, consommation de votre véhicule, prix du carburant prévu à la date de récolte (prix préfectoral du mois + tendance des cinq dernières années), usure du véhicule et frais de place. L'appli retient le marché qui vous laisse le plus d'argent.</li>
+          <li><b>Marge.</b> Récolte vendue × prix − transport − intrants (semences et plants au prix prévu à la plantation, selon leur hausse récente) − pompage de l'eau au gazole − abri − main-d'œuvre (heures de culture et de vente, au SMIC ou non comptées). Le prix de revient est le prix de vente minimum pour tout couvrir ; l'appli indique aussi ce que rapporte une heure de votre travail.</li>
+          <li><b>Votre carnet.</b> Chaque récolte que vous notez est comparée à la prévision : l'appli recale le rendement de cette culture pour votre ferme. Vos ventes s'ajoutent aux prix du marché.</li>
+          <li><b>Lune.</b> Les phases sont calculées automatiquement pour les dates réelles de chaque année. Entre deux semaines de marge proche, l'appli préfère celle où la lune est favorable, et elle indique le jour de plantation conseillé : feuilles et fruits en lune croissante, racines en lune décroissante, hors jours de nouvelle et de pleine lune.</li>
+        </ol>
+        <h3>Limites</h3>
+        <ul>
+          <li>Rendements, coûts, pertes animales et prix de départ sont des estimations. Ajustez-les avec vos chiffres ; les mercuriales remplaceront les prix.</li>
+          <li>Vérifiez que vos débouchés peuvent absorber les volumes, surtout pour les légumes-feuilles, et réglez la part de la récolte vendue.</li>
+          <li>Si beaucoup d'agriculteurs plantent la même culture la même semaine, le prix à la récolte baissera. Étalez vos semis et variez les cultures.</li>
+          <li>Distances routières calculées sur les grands axes (RN1, RN2 et routes départementales) : comptez ±10 %. La piste jusqu'à la route est estimée à vol d'oiseau + 30 %.</li>
+          <li>L'effet de la lune sur le rendement n'a pas été mesuré scientifiquement : elle sert à choisir le jour, pas à calculer l'argent.</li>
+        </ul>
+      </div>
+      <div class="prose">
+        <h3>Mise à jour automatique</h3>
+        <p>L'appli se recalcule seule à partir de ses archives. Chaque mercredi et samedi matin, une tâche planifiée :</p>
+        <ul>
+          <li>ajoute aux archives les nouvelles mercuriales de la DAAF Guyane et récupère les semaines passées qui manquent ;</li>
+          <li>ajoute chaque mois terminé de pluie et de température des cinq stations ; le calcul garde toujours les 132 derniers mois (11 saisons) ;</li>
+          <li>ajoute le prix maximum du carburant fixé chaque mois par la préfecture ;</li>
+          <li>recalcule les prix de chaque légume sur chaque marché et leur saisonnalité, en donnant plus de poids aux relevés récents.</li>
+        </ul>
+        <ul class="small" id="archive"></ul>
+        <h3>Carburant</h3>
+        <div id="fuelBox"></div>
+        <h3>Sources</h3>
+        <ul class="small">
+          <li>Climat récent : les 132 derniers mois de relevés des stations Météo-France de Cayenne-Rochambeau, Kourou-CSG, Saint-Laurent-du-Maroni, Saint-Georges-de-l'Oyapock et Maripasoula, via Infoclimat. Macouria et Cacao : moyenne des deux stations voisines. Jours de pluie et humidité estimés d'après la pluie.</li>
+          <li>Comparaison : normales Météo-France 1991-2020.</li>
+          <li>El Niño / La Niña : NOAA Climate Prediction Center et IRI (prévision mensuelle) ; effets en Guyane : Météo-France Guyane.</li>
+          <li>Sols : grands domaines géologiques du BRGM (socle, plaine côtière ancienne Coswine, plaine côtière récente Demerara, alluvions).</li>
+          <li>Semences et plants : indice IPAMPA (Agreste). Main-d'œuvre : SMIC horaire brut au 1er juin 2026 (12,31 €).</li>
+          <li>Prix : mercuriales hebdomadaires de la DAAF Guyane quand elles sont intégrées ; sinon estimations de départ.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>Outil d'aide à la décision : les chiffres sont des ordres de grandeur pour comparer des dates et des marchés, pas une garantie de revenu. · <a href="confidentialite.html">Confidentialité</a></footer>
+</div>
+<div id="tip" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="js/cloud.js" defer></script>
+<script>
+  if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+</script>
+</body>
+</html>

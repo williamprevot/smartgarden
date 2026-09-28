@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": "DAAF Guyane – mercuriales hebdomadaires des prix des fruits et légumes",
+  "maj": null,
+  "unite": "EUR/kg",
+  "notes": "Chaque relevé : date (AAAA-MM-JJ), marche (id), produit (id), prix (€/kg). Ids marchés : cayenne, remire, matoury, kourou, stlaurent. Ids produits : voir CULTURES dans la page.",
+  "releves": []
+}
