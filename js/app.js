@@ -558,7 +558,7 @@ function sowLine(s){
 }
 function riskLine(s){
   const v = state.metric==='mois' ? s.parMoisP20 : s.margeP20;
-  return `<span class="risk${v<0?' bad':''}">Année difficile : <b>${eur(total(v))}</b>${state.metric==='mois'?'/mois':''}, à cause de : ${esc(s.cause)}</span>`;
+  return `<span class="risk${v<0?' bad':''}">Année difficile : <b class="${v<0?'perte':'gain'}">${eur(total(v))}</b>${state.metric==='mois'?'/mois':''}, à cause de : ${esc(s.cause)}</span>`;
 }
 function reasonShort(s){
   const f = [[s.L.pluie,'Trop de pluie'],[s.L.hum,'Trop humide, maladies'],[s.L.sec,'Trop sec sans arrosage'],[s.L.chaleur,'Trop chaud']].sort((a,b)=>b[0]-a[0])[0];
@@ -572,6 +572,7 @@ function moonShort(s){
   if (sd.fav) return `Lune : planter le ${JOURS[sd.d.getDay()].slice(0,3)}. ${fd(sd.d)}`;
   const n = nextFav(s.c, weekDate(s.p)); return n ? `Lune : attendre le ${fd(n)}` : 'Lune : pas de jour favorable proche';
 }
+const eurC = v => `<span class="${v<0?'perte':'gain'}">${eur(v)}</span>`;
 function renderNow(){
   const vis = visible();
   const sims = vis.map(c=>GRID[c.id][0]).sort((a,b)=>b.score-a.score);
@@ -582,15 +583,15 @@ function renderNow(){
   $('#recoList').innerHTML = top.length ? top.map((s,i)=>{ const v = parMois ? s.parMois : s.marge, p20 = parMois ? s.parMoisP20 : s.margeP20, cls = s.rentables>=8?'ok':s.rentables>=6?'mid':'no';
     return `<button type="button" class="rcard" data-crop="${s.c.id}" style="--cc:${CAT_COL[s.c.cat]}">
       <span class="rc-top"><span class="rc-rank">${i+1}</span><span class="rc-name">${esc(s.c.nom)}</span><span class="cat-tag">${esc(CATS[s.c.cat].nom)}</span></span>
-      <span class="rc-money"><span class="rc-big">${eur(total(v))}</span><span class="rc-unit">${parMois?'par mois':'sur la culture'}</span></span>
-      <span class="rc-sub">${parMois ? eur(total(s.marge))+' sur toute la culture' : eur(total(s.parMois))+' par mois'}<span class="verdict ${cls}">Rentable ${s.rentables} ans sur 10</span></span>
+      <span class="rc-money"><span class="rc-big ${v<0?'perte':'gain'}">${eur(total(v))}</span><span class="rc-unit">${parMois?'par mois':'sur la culture'}</span></span>
+      <span class="rc-sub"><span>${parMois ? eurC(total(s.marge))+' sur toute la culture' : eurC(total(s.parMois))+' par mois'}</span><span class="verdict ${cls}">Rentable ${s.rentables} ans sur 10</span></span>
       <span class="rc-facts">
         <span><span class="k">Récolte</span>${fd(weekDate(s.h0))} → ${fd(weekDate(s.h1+1))}</span>
         <span><span class="k">Vendre à</span>${esc(s.best.m.nom)}, ${nf2.format(s.best.prix)} €/kg</span>
       </span>
       <span class="rc-foot">
         <span>${moonSVG(moonAge(sowDay(s.c,0).d),13)} ${esc(moonShort(s))}</span>
-        <span>Année difficile : ${eur(total(p20))}${parMois?'/mois':''} (${esc(causeCourte(s))})</span>
+        <span><span>Année difficile : ${eurC(total(p20))}${parMois?'/mois':''} (${esc(causeCourte(s))})</span></span>
         ${(()=>{ const bw = bestWeek(s.c.id), bv = GRID[s.c.id][bw].val; return bw > 0 && bv > s.val*1.4 ? `<span class="rc-mieux">Encore mieux vers le ${fd(weekDate(bw))}</span>` : ''; })()}
       </span>
     </button>`; }).join('') : '<p class="muted">Aucune culture rentable cette semaine avec ces réglages. Essayez une autre façon de cultiver ou regardez le calendrier.</p>';
@@ -601,7 +602,7 @@ function renderNow(){
       <span class="rc-top"><span class="a-name">${esc(x.now.c.nom)}</span><span class="cat-tag">${esc(CATS[x.now.c.cat].nom)}</span></span>
       <span class="a-why">${esc(reasonShort(x.now))}</span>
       <span class="a-best">Meilleure période : vers le <b>${fd(weekDate(x.bw))}</b></span>
-      <span class="a-cmp">${eur(total(x.best.val))} au lieu de ${eur(total(x.now.val))}${parMois?' par mois':''}</span>
+      <span class="a-cmp">${eurC(total(x.best.val))} au lieu de ${eurC(total(x.now.val))}${parMois?' par mois':''}</span>
     </button></li>`).join('')
     : '<li class="small muted">Rien à éviter particulièrement cette semaine.</li>';
 }
@@ -630,9 +631,9 @@ function renderHeat(){
   $('#heat').innerHTML = h; markHeatSel();
   const lab = (state.metric==='mois' ? 'Marge par mois de terrain occupé' : 'Marge par récolte') + (state.scenario==='prudent' ? ', année difficile' : ', année normale');
   $('#heatLegend').innerHTML = `<span>${lab} (${nf0.format(state.surface)} m²) :</span>
-    ${mn<0?`<span class="sw"><i style="background:var(--n5)"></i><i style="background:var(--n3)"></i><i style="background:var(--n1)"></i></span><span>perte jusqu'à ${eur(mn)}</span>`:''}
+    ${mn<0?`<span class="sw"><i style="background:var(--n5)"></i><i style="background:var(--n3)"></i><i style="background:var(--n1)"></i></span><span>perte jusqu'à <b class="perte">${eur(mn)}</b></span>`:''}
     <span class="sw"><i style="background:var(--cell-0)"></i></span><span>≈ 0</span>
-    <span class="sw"><i style="background:var(--p1)"></i><i style="background:var(--p3)"></i><i style="background:var(--p5)"></i></span><span>gain jusqu'à ${eur(mx)}</span>
+    <span class="sw"><i style="background:var(--p1)"></i><i style="background:var(--p3)"></i><i style="background:var(--p5)"></i></span><span>gain jusqu'à <b class="gain">${eur(mx)}</b></span>
     <span><span class="bestmk"></span>meilleure semaine</span>`;
 }
 function markHeatSel(){
@@ -656,7 +657,7 @@ function renderDetail(){
     <div><span class="k">Récolte</span><span class="v">${fd(weekDate(s.h0))}</span><span class="s">pendant ${c.recS} sem. · environ ${s.dureeJ} j après plantation · ${nf1.format(s.rdt)} kg/m² (${pct(s.rdt/s.rdtPot)} du potentiel), soit ${nf0.format(total(s.rdt))} kg</span></div>
     <div><span class="k">Prix de revient</span><span class="v">${nf2.format(s.prixRevient)} €/kg</span><span class="s">prix minimum pour couvrir intrants, main-d’œuvre et transport · marge de sécurité ${marg>=0?pct(marg):'négative'}</span></div>
     <div><span class="k">Vendre à</span><span class="v">${nf2.format(s.best.prix)} €/kg</span><span class="s">${esc(s.best.m.nom)}${s.best.km?` · ${nf0.format(s.best.km)} km · transport ${nf2.format(s.best.tr)} €/kg`:''}</span></div>
-    <div><span class="k">Vous gagnez en moyenne</span><span class="v" style="color:${s.marge<0?'var(--bad)':'inherit'}">${eur(total(s.marge))}</span><span class="s">${eur(total(s.parMois))}/mois · <span class="verdict ${s.rentables>=8?'ok':s.rentables>=6?'mid':'no'}">rentable ${s.rentables} ans sur 10</span><br>année difficile : ${eur(total(mP20))}${state.metric==='mois'?'/mois':''} (4 années sur 5 font mieux), à cause de : ${esc(s.cause)}${s.heures>0?`<br>une heure de votre travail rapporte ${nf2.format(s.remH)} €`:''} · ${bestLbl}</span></div>`;
+    <div><span class="k">Vous gagnez en moyenne</span><span class="v ${s.marge<0?'perte':'gain'}">${eur(total(s.marge))}</span><span class="s">${eurC(total(s.parMois))}/mois · <span class="verdict ${s.rentables>=8?'ok':s.rentables>=6?'mid':'no'}">rentable ${s.rentables} ans sur 10</span><br>année difficile : ${eurC(total(mP20))}${state.metric==='mois'?'/mois':''} (4 années sur 5 font mieux), à cause de : ${esc(s.cause)}${s.heures>0?`<br>une heure de votre travail rapporte ${nf2.format(s.remH)} €`:''} · ${bestLbl}</span></div>`;
   // Barres
   const pick = state.metric==='mois' ? (x=>[x.parMois,x.parMoisP20]) : (x=>[x.marge,x.margeP20]);
   const vals = arr.map(x=>pick(x).map(total));
@@ -681,7 +682,7 @@ function renderDetail(){
     s.mk.slice().sort((a,b)=>b.net-a.net).map(m=>{ const cal = CAL[c.id] && CAL[c.id][m.m.id];
       return `<tr class="${m===s.best?'best':''}"><td>${esc(m.m.nom)}${m===s.best?'<span class="badge">meilleur</span>':''}${m.src==='estim'?'':'<span class="badge">relevés</span>'}</td>
       <td class="r num">${m.m.local ? '—' : (m.km==null ? 'fret' : nf0.format(m.km)+' km')}</td>
-      <td class="r num">${nf2.format(m.prix)}</td><td class="r num">${m.tr>0?'−'+nf2.format(m.tr):'0'}</td><td class="r num">${nf2.format(m.net)}</td>
+      <td class="r num">${nf2.format(m.prix)}</td><td class="r num${m.tr>0?' perte':''}">${m.tr>0?'−'+nf2.format(m.tr):'0'}</td><td class="r num ${m.net<0?'perte':'gain'}">${nf2.format(m.net)}</td>
       <td><div class="netbar" style="width:${Math.max(0,m.net)/maxNet*100}%"></div></td>
       <td class="r small">${cal ? nf2.format(cal.last.prix)+' € · '+fd(cal.last.date) : '<span class="muted">—</span>'}</td></tr>`; }).join('') + '</tbody>';
   const anyReal = s.mk.some(m=>m.src!=='estim'), F = FUEL[state.fuel];
@@ -747,7 +748,7 @@ function renderClimate(){
     s.mp.map((p,i)=>{ const dv = (p/s.np[i]-1)*100, ex = expectedMonth(((i - START.getMonth()) % 12 + 12) % 12);
       return `<tr class="${p<120?'dry':''}"><td>${MOIS[i]}</td><td class="r num">${nf0.format(p)}</td>
       <td><div class="cbwrap"><div class="rng" style="left:${(s.minp[i]/mx*100).toFixed(1)}%;width:${((s.maxp[i]-s.minp[i])/mx*100).toFixed(1)}%"></div><div class="cb" style="width:${(p/mx*100).toFixed(1)}%;background:var(--rain)"></div><div class="cn" style="left:calc(${(s.np[i]/mx*100).toFixed(1)}% - 1px)"></div></div></td>
-      <td class="r num ${dv>10?'delta-up':''}">${sgn(dv)} %</td><td class="r num">${nf0.format(s.minp[i])} → ${nf0.format(s.maxp[i])}</td>
+      <td class="r num ${dv>10?'delta-up':(dv<-10?'delta-hot':'')}">${sgn(dv)} %</td><td class="r num">${nf0.format(s.minp[i])} → ${nf0.format(s.maxp[i])}</td>
       <td class="r num">${nf1.format(s.mt[i])}</td><td class="r num">${nf1.format(s.mx[i])}</td><td class="r num">${nf0.format(72+.6*joursPluie(p))} %</td><td class="r num">${ex.alpha>.15 ? `${nf0.format(ex.v)} <span class="small ${ex.v<p*.9?'delta-hot':(ex.v>p*1.1?'delta-up':'muted')}">(${sgn((ex.v/p-1)*100)} %)</span>` : '<span class="muted">—</span>'}</td></tr>`; }).join('') + '</tbody>';
 }
 
@@ -757,7 +758,7 @@ function renderHyp(){
   const M = {cycle:mx('cycle'), rdt:mx('rdt'), prix:mx('prix'), h:mx('h')};
   const bar = (k, v) => `<span class="hbar" aria-hidden="true"><i style="width:${Math.max(5, v/M[k]*100).toFixed(0)}%"></i></span>`;
   const pluie = c => c.pluieMax >= 400 ? ['ok','Supporte bien'] : c.pluieMax >= 250 ? ['mid','Moyen'] : ['no','Craint la pluie'];
-  const anim = v => v <= .08 ? 'ok' : v <= .12 ? 'mid' : 'no';
+  const anim = v => v <= .08 ? 'faible' : v <= .12 ? 'mid' : 'no';
   let rows = '';
   for (const [k,v] of Object.entries(CATS)){
     rows += `<tr class="grp-row"><th colspan="10" scope="colgroup"><span class="grp-lbl"><span class="cat-dot" style="background:${CAT_COL[k]}"></span>${esc(v.nom)}</span></th></tr>`;
@@ -803,7 +804,7 @@ function renderCarnet(){
       const vs = x.ventes || [], vKg = vs.reduce((a,v)=>a+v.kg,0), vEur = vs.reduce((a,v)=>a+v.kg*v.prix,0);
       const statut = x.recolteKg ? `récolté ${nf0.format(x.recolteKg)} kg${pr?` (${sgn((x.recolteKg/(x.predRdt*x.surface)-1)*100)} % par rapport à la prévision)`:''}` : (rd ? (rd <= today ? `<b>récolte en cours ou à venir</b> depuis le ${fd(rd)}` : `récolte prévue vers le ${fd(rd)}`) : '');
       return `<li style="border-left:4px solid ${c ? CAT_COL[c.cat] : 'var(--line)'}"><div><b>${esc(c ? c.nom : x.culture)}</b> · ${esc(q ? q.nom : 'parcelle supprimée')} · planté le ${fdy(d)} · ${nf0.format(x.surface)} m²</div>
-        <div class="small muted">${statut}${pr && !x.recolteKg ? ` · environ ${nf0.format(pr)} kg attendus` : ''}${vKg ? ` · vendu ${nf0.format(vKg)} kg pour ${eur(vEur)}` : ''}</div>
+        <div class="small muted">${statut}${pr && !x.recolteKg ? ` · environ ${nf0.format(pr)} kg attendus` : ''}${vKg ? ` · vendu ${nf0.format(vKg)} kg pour <span class="gain">${eur(vEur)}</span>` : ''}</div>
         <details class="act"><summary>Noter la récolte</summary><div class="locrow"><input type="number" min="0" step="1" placeholder="kg récoltés au total" data-in="kg" aria-label="Kilos récoltés au total"><button type="button" class="btn ghost" data-act="rec" data-id="${x.id}">Enregistrer</button></div></details>
         <details class="act"><summary>Noter une vente</summary><div class="locrow"><input type="number" min="0" step="0.1" placeholder="kg" data-in="vkg" aria-label="Kilos vendus"><input type="number" min="0" step="0.01" placeholder="€ le kg" data-in="vprix" aria-label="Prix au kilo"><select data-in="vmar" aria-label="Marché">${MARCHES.map(m=>`<option value="${m.id}">${esc(m.nom)}</option>`).join('')}</select><button type="button" class="btn ghost" data-act="vente" data-id="${x.id}">Enregistrer</button></div></details>
         <button type="button" class="linkbtn danger" data-act="delpl" data-id="${x.id}">Supprimer</button></li>`; }).join('')
