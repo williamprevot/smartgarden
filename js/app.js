@@ -139,7 +139,7 @@ if (!Array.isArray(state.plantations)) state.plantations = [];
 if (!state.lieu || !state.lieu.mode) state.lieu = {mode:'node', id:{cayenne:'cayenne',macouria:'tonate',kourou:'kourou',ouest:'slm',cacao:'cacao',est:'regina',fleuve:'maripasoula'}[state.zone] || 'cayenne'};
 if (!['essence','gazole'].includes(state.fuel)) state.fuel = 'gazole';
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} window.dispatchEvent(new Event('cmg:save')); }
-let OFFICIEL = {maj:null, releves:[]};
+let OFFICIEL = {"maj":"2026-09-28","releves":[{"date":"2026-09-05","produit":"aubergine","prix":3.3},{"date":"2026-09-05","produit":"bredes","prix":6.0},{"date":"2026-09-05","produit":"chou","prix":5.0},{"date":"2026-09-05","produit":"chou_chinois","prix":4.5},{"date":"2026-09-05","produit":"cive","prix":14.4},{"date":"2026-09-05","produit":"concombre","prix":2.5},{"date":"2026-09-05","produit":"dachine","prix":4.5},{"date":"2026-09-05","produit":"gingembre","prix":10.9},{"date":"2026-09-05","produit":"giraumon","prix":3.0},{"date":"2026-09-05","produit":"gombo","prix":6.2},{"date":"2026-09-05","produit":"haricot","prix":3.6},{"date":"2026-09-05","produit":"igname","prix":4.4},{"date":"2026-09-05","produit":"laitue","prix":8.1},{"date":"2026-09-05","produit":"mais","prix":5.8},{"date":"2026-09-05","produit":"manioc","prix":2.7},{"date":"2026-09-05","produit":"melon","prix":4.3},{"date":"2026-09-05","produit":"pasteque","prix":2.0},{"date":"2026-09-05","produit":"patate","prix":3.8},{"date":"2026-09-05","produit":"persil","prix":21.0},{"date":"2026-09-05","produit":"poivron","prix":9.2},{"date":"2026-09-05","produit":"tomate","prix":6.5},{"date":"2026-09-12","produit":"aubergine","prix":3.5},{"date":"2026-09-12","produit":"bredes","prix":6.2},{"date":"2026-09-12","produit":"chou","prix":5.0},{"date":"2026-09-12","produit":"chou_chinois","prix":4.8},{"date":"2026-09-12","produit":"cive","prix":12.0},{"date":"2026-09-12","produit":"concombre","prix":2.6},{"date":"2026-09-12","produit":"dachine","prix":4.5},{"date":"2026-09-12","produit":"gingembre","prix":9.8},{"date":"2026-09-12","produit":"giraumon","prix":2.9},{"date":"2026-09-12","produit":"gombo","prix":6.4},{"date":"2026-09-12","produit":"haricot","prix":3.6},{"date":"2026-09-12","produit":"igname","prix":4.1},{"date":"2026-09-12","produit":"laitue","prix":11.1},{"date":"2026-09-12","produit":"mais","prix":5.5},{"date":"2026-09-12","produit":"manioc","prix":2.7},{"date":"2026-09-12","produit":"melon","prix":4.7},{"date":"2026-09-12","produit":"pasteque","prix":2.1},{"date":"2026-09-12","produit":"patate","prix":4.0},{"date":"2026-09-12","produit":"persil","prix":22.0},{"date":"2026-09-12","produit":"poivron","prix":9.6},{"date":"2026-09-12","produit":"tomate","prix":6.3},{"date":"2026-09-19","produit":"aubergine","prix":3.2,"min":2.0,"max":5.0,"obs":3.5},{"date":"2026-09-19","produit":"bredes","prix":6.1,"min":4.0,"max":8.0,"obs":6.0},{"date":"2026-09-19","produit":"chou","prix":4.8,"min":3.0,"max":6.0,"obs":5.0},{"date":"2026-09-19","produit":"chou_chinois","prix":4.7,"min":4.0,"max":6.0,"obs":5.0},{"date":"2026-09-19","produit":"cive","prix":12.1,"min":8.0,"max":15.0,"obs":10.0},{"date":"2026-09-19","produit":"concombre","prix":2.3,"min":1.8,"max":3.0,"obs":2.0},{"date":"2026-09-19","produit":"dachine","prix":4.4,"min":3.0,"max":5.5,"obs":4.0},{"date":"2026-09-19","produit":"gingembre","prix":10.1,"min":7.0,"max":15.0,"obs":7.0},{"date":"2026-09-19","produit":"giraumon","prix":3.0,"min":2.5,"max":4.0,"obs":2.5},{"date":"2026-09-19","produit":"gombo","prix":6.2,"min":4.0,"max":8.0,"obs":6.0},{"date":"2026-09-19","produit":"haricot","prix":3.4,"min":3.0,"max":4.0,"obs":3.0},{"date":"2026-09-19","produit":"igname","prix":4.5,"min":3.5,"max":6.0,"obs":4.0},{"date":"2026-09-19","produit":"laitue","prix":12.4,"min":8.0,"max":15.0,"obs":15.0},{"date":"2026-09-19","produit":"mais","prix":5.6,"min":5.0,"max":6.0,"obs":6.0},{"date":"2026-09-19","produit":"manioc","prix":2.9,"min":2.0,"max":3.5,"obs":3.0},{"date":"2026-09-19","produit":"melon","prix":5.2,"min":3.5,"max":6.5,"obs":5.0},{"date":"2026-09-19","produit":"pasteque","prix":1.8,"min":1.0,"max":2.5,"obs":2.0},{"date":"2026-09-19","produit":"patate","prix":3.9,"min":3.0,"max":4.8,"obs":3.5},{"date":"2026-09-19","produit":"persil","prix":23.0,"min":16.7,"max":28.0,"obs":25.0},{"date":"2026-09-19","produit":"piment","prix":14.0,"min":10.0,"max":18.0,"obs":15.0},{"date":"2026-09-19","produit":"poivron","prix":9.1,"min":5.0,"max":13.0,"obs":10.0},{"date":"2026-09-19","produit":"tomate","prix":6.1,"min":4.0,"max":10.0,"obs":6.0}],"familles":[{"date":"2026-09-19","famille":"agrumes","guyane":4.53,"cayenne":4.07,"ile_cayenne":4.83,"kourou":5.02,"stlaurent":5.25},{"date":"2026-09-19","famille":"bananes","guyane":2.99,"cayenne":2.92,"ile_cayenne":3.45,"kourou":2.98,"stlaurent":2.5},{"date":"2026-09-19","famille":"condiments","guyane":16.0,"cayenne":15.49,"ile_cayenne":17.85,"kourou":14.09,"stlaurent":16.91},{"date":"2026-09-19","famille":"fruits","guyane":4.45,"cayenne":4.11,"ile_cayenne":4.79,"kourou":4.41,"stlaurent":5.39},{"date":"2026-09-19","famille":"fruits_tropicaux","guyane":4.62,"cayenne":4.31,"ile_cayenne":5.38,"kourou":4.52,"stlaurent":5.37},{"date":"2026-09-19","famille":"legumes","guyane":6.48,"cayenne":6.2,"ile_cayenne":7.28,"kourou":5.54,"stlaurent":7.32},{"date":"2026-09-19","famille":"legumes_tropicaux","guyane":4.84,"cayenne":4.65,"ile_cayenne":5.84,"kourou":4.43,"stlaurent":4.95},{"date":"2026-09-19","famille":"total","guyane":5.67,"cayenne":5.37,"ile_cayenne":6.34,"kourou":4.99,"stlaurent":6.63},{"date":"2026-09-19","famille":"tubercules","guyane":4.67,"cayenne":4.48,"ile_cayenne":4.31,"kourou":4.68,"stlaurent":6.3}]};
 
 /* ---------- Outils ---------- */
 const $ = s => document.querySelector(s);
@@ -265,14 +265,34 @@ function fete(d){ const y = d.getFullYear(); const e = PQ[y] || (PQ[y] = paques(
 /* ---------- Prix ---------- */
 function saison(c, m, d){ return (1 + c.amp*m.amp*(interp12(IDX,d)/IDXM - 1)) * (c.paques ? fete(d) : 1); }
 let CAL = {};
+/* Mercuriales DAAF : prix moyen Guyane par produit + prix moyen par famille dans chaque marché.
+   Marché de l'appli -> colonne DAAF ; culture -> famille DAAF utilisée pour l'écart entre marchés. */
+const MKT_DAAF = {cayenne:'cayenne', remire:'ile_cayenne', matoury:'ile_cayenne', kourou:'kourou', stlaurent:'stlaurent'};
+const FAM_DAAF = {cive:'condiments', persil:'condiments', piment:'condiments', patate:'tubercules', dachine:'tubercules', igname:'tubercules', manioc:'tubercules', melon:'fruits', pasteque:'fruits', gingembre:'fruits'};
+let RATIO = {}, DERNIER = {};
+MARCHES.forEach(m=>{ m.mult0 = m.mult; });
+function buildRatios(){
+  RATIO = {}; const now = Date.now(), acc = {};
+  for (const f of OFFICIEL.familles||[]){ const d = new Date(f.date+'T12:00:00'); if (isNaN(d) || !(+f.guyane>0)) continue;
+    const w = Math.pow(.5, Math.max(0, now-d)/DEMI_VIE);
+    for (const mid in MKT_DAAF){ const v = +f[MKT_DAAF[mid]]; if (!(v>0)) continue;
+      const a = (acc[f.famille] = acc[f.famille] || {}); const o = (a[mid] = a[mid] || {s:0,w:0}); o.s += w*v/f.guyane; o.w += w; } }
+  for (const fam in acc){ RATIO[fam] = {}; for (const mid in acc[fam]) RATIO[fam][mid] = acc[fam][mid].s/acc[fam][mid].w; }
+  const L = RATIO.legumes; MARCHES.forEach(m=>{ m.mult = (L && L.cayenne && L[m.id]) ? L[m.id]/L.cayenne : m.mult0; });
+}
+function ratioMarche(c, mid){ const r = RATIO[FAM_DAAF[c.id] || 'legumes'] || RATIO.legumes; return r && r[mid] ? r[mid] : null; }
 const DEMI_VIE = 2*365.25*86400000; // un relevé vieux de deux ans compte moitié moins qu'un relevé récent
 function buildCal(){
-  CAL = {}; const groups = {}, now = Date.now(), res = [];
+  buildRatios(); CAL = {}; DERNIER = {}; const groups = {}, now = Date.now(), res = [];
+  const add = (c, m, p, d) => (groups[c.id+'|'+m.id] = groups[c.id+'|'+m.id] || []).push({d,p,c,m,w:Math.pow(.5, Math.max(0, now-d)/DEMI_VIE)});
   const ventes = (state.plantations||[]).flatMap(x=>(x.ventes||[]).map(v=>({date:v.date, marche:v.marche, produit:x.culture, prix:v.prix})));
   for (const r of [].concat(OFFICIEL.releves||[], ventes)){
-    const c = CROP[r.produit], m = MKT[r.marche], p = +r.prix, d = new Date(r.date+'T12:00:00');
-    if (!c || !m || !(p>0) || isNaN(d)) continue;
-    (groups[c.id+'|'+m.id] = groups[c.id+'|'+m.id] || []).push({d,p,c,m,w:Math.pow(.5, Math.max(0, now-d)/DEMI_VIE)});
+    const c = CROP[r.produit], p = +r.prix, d = new Date(r.date+'T12:00:00');
+    if (!c || !(p>0) || isNaN(d)) continue;
+    if (r.marche && r.marche !== 'guyane'){ const m = MKT[r.marche]; if (m) add(c, m, p, d); continue; }
+    // Prix moyen Guyane -> prix de chaque marché selon l'écart relevé par la DAAF pour la famille du produit
+    if (!DERNIER[c.id] || d > DERNIER[c.id].d) DERNIER[c.id] = {d, prix:p, min:+r.min||null, max:+r.max||null, obs:+r.obs||null};
+    for (const mid in MKT_DAAF){ const q = ratioMarche(c, mid); add(c, MKT[mid], p*(q != null ? q : MKT[mid].mult0), d); }
   }
   for (const k in groups){
     const g = groups[k], c = g[0].c, m = g[0].m, W = g.reduce((s,x)=>s+x.w,0);
@@ -288,7 +308,11 @@ function buildCal(){
 }
 function baseEstim(c){
   const o = state.overrides[c.id]; if (o && o.prix != null) return o.prix;
-  const cal = CAL[c.id]; if (cal){ let s=0,n=0; for (const mid in cal){ if (mid==='local') continue; s += cal[mid].level/MKT[mid].mult*cal[mid].n; n += cal[mid].n; } if (n>=3) return s/n; }
+  return baseReel(c);
+}
+function baseReel(c){ // prix moyen annuel à Cayenne : mercuriales si disponibles, sinon estimation de départ
+  const cal = CAL[c.id]; if (cal && cal.cayenne && cal.cayenne.n >= 3) return cal.cayenne.level;
+  if (cal){ let s=0,n=0; for (const mid in cal){ if (mid==='local') continue; s += cal[mid].level/MKT[mid].mult*cal[mid].n; n += cal[mid].n; } if (n>=3) return s/n; }
   return c.prix;
 }
 const priceCache = new Map();
@@ -678,18 +702,20 @@ function renderDetail(){
   // Marchés
   const maxNet = Math.max(...s.mk.map(m=>m.net), .01);
   $('#mktSub').textContent = `récolte du ${fd(weekDate(s.h0))} au ${fd(weekDate(s.h1+1))}`;
-  $('#mkt').innerHTML = `<thead><tr><th>Marché</th><th class="r">Distance</th><th class="r">Prix attendu</th><th class="r">Transport</th><th class="r">Net €/kg</th><th style="width:20%"></th><th class="r">Dernier relevé</th></tr></thead><tbody>` +
+  const dn = DERNIER[c.id];
+  $('#mktDaaf').textContent = dn ? `Mercuriale DAAF du ${fd(dn.d)} : ${nf2.format(dn.prix)} €/kg en moyenne en Guyane${dn.min && dn.max ? ` (de ${nf2.format(dn.min)} à ${nf2.format(dn.max)} €${dn.obs ? `, le plus souvent ${nf2.format(dn.obs)} €` : ''})` : ''}. Le prix de chaque marché suit l’écart relevé par la DAAF entre les marchés.` : 'Pas encore de mercuriale DAAF pour ce légume : prix estimés.';
+  $('#mkt').innerHTML = `<thead><tr><th>Marché</th><th class="r">Distance</th><th class="r">Prix attendu</th><th class="r">Transport</th><th class="r">Net €/kg</th><th style="width:20%"></th><th class="r">Relevé DAAF</th></tr></thead><tbody>` +
     s.mk.slice().sort((a,b)=>b.net-a.net).map(m=>{ const cal = CAL[c.id] && CAL[c.id][m.m.id];
-      return `<tr class="${m===s.best?'best':''}"><td>${esc(m.m.nom)}${m===s.best?'<span class="badge">meilleur</span>':''}${m.src==='estim'?'':'<span class="badge">relevés</span>'}</td>
+      return `<tr class="${m===s.best?'best':''}"><td>${esc(m.m.nom)}${m===s.best?'<span class="badge">meilleur</span>':''}</td>
       <td class="r num">${m.m.local ? '—' : (m.km==null ? 'fret' : nf0.format(m.km)+' km')}</td>
       <td class="r num">${nf2.format(m.prix)}</td><td class="r num${m.tr>0?' perte':''}">${m.tr>0?'−'+nf2.format(m.tr):'0'}</td><td class="r num ${m.net<0?'perte':'gain'}">${nf2.format(m.net)}</td>
       <td><div class="netbar" style="width:${Math.max(0,m.net)/maxNet*100}%"></div></td>
-      <td class="r small">${cal ? nf2.format(cal.last.prix)+' € · '+fd(cal.last.date) : '<span class="muted">—</span>'}</td></tr>`; }).join('') + '</tbody>';
+      <td class="r small" style="white-space:nowrap">${cal ? nf2.format(cal.last.prix)+' €<br><span class="muted">'+fd(cal.last.date)+'</span>' : '<span class="muted">—</span>'}</td></tr>`; }).join('') + '</tbody>';
   const anyReal = s.mk.some(m=>m.src!=='estim'), F = FUEL[state.fuel];
   $('#mktNote').textContent = (LOC.mode==='fret'
       ? `Pas de route vers la côte : fret compté ${nf2.format(FRET_KG)} €/kg, plus ${nf0.format(state.place)} € de frais de place par marché. `
       : `Transport : ${s.trips} allers-retours pendant la récolte, ${nf1.format(state.conso)} L/100 km, ${state.fuel==='gazole'?'gazole':'sans plomb'} prévu à ${nf2.format(s.fuelP)} €/L à la récolte (${nf2.format(F.last.v)} €/L en ${moisCle(F.last.k)}), usure ${nf2.format(state.usure)} €/km, ${nf0.format(state.place)} € de place par marché. `) +
-    (anyReal ? 'Les marchés marqués « relevés » utilisent des prix réels.' : 'Sans mercuriales, les marchés côtiers ont le même prix estimé : le transport les départage.');
+    (anyReal ? 'Prix des marchés tirés des mercuriales DAAF.' : 'Sans mercuriales, les marchés côtiers ont le même prix estimé : le transport les départage.');
   // Facteurs
   const f = [];
   f.push(`<li><span>Rendement de référence${s.abri?' (abri +30 %)':''}</span><span class="mono">${nf1.format(s.rdtPot)} kg/m²</span></li>`);
@@ -723,7 +749,7 @@ function renderDetail(){
   // Ajustements
   const o = state.overrides[c.id] || {};
   $('#aRdt').value = o.rdt ?? ''; $('#aRdt').placeholder = nf1.format(c.rdt);
-  $('#aPrix').value = o.prix ?? ''; $('#aPrix').placeholder = nf1.format(c.prix);
+  $('#aPrix').value = o.prix ?? ''; $('#aPrix').placeholder = nf1.format(baseReel(c));
   $('#aCout').value = o.cout ?? ''; $('#aCout').placeholder = nf1.format(c.cout);
   $('#aH').value = o.h ?? ''; $('#aH').placeholder = c.h;
   $('#aCycle').value = o.cycle ?? ''; $('#aCycle').placeholder = c.cycle;
@@ -755,7 +781,7 @@ function renderClimate(){
 /* ---------- Hypothèses ---------- */
 function renderHyp(){
   const mx = k => Math.max(...CULTURES.map(c=>eff(c,k)));
-  const M = {cycle:mx('cycle'), rdt:mx('rdt'), prix:mx('prix'), h:mx('h')};
+  const M = {cycle:mx('cycle'), rdt:mx('rdt'), prix:Math.max(...CULTURES.map(baseEstim)), h:mx('h')};
   const bar = (k, v) => `<span class="hbar" aria-hidden="true"><i style="width:${Math.max(5, v/M[k]*100).toFixed(0)}%"></i></span>`;
   const pluie = c => c.pluieMax >= 400 ? ['ok','Supporte bien'] : c.pluieMax >= 250 ? ['mid','Moyen'] : ['no','Craint la pluie'];
   const anim = v => v <= .08 ? 'faible' : v <= .12 ? 'mid' : 'no';
@@ -767,14 +793,14 @@ function renderHyp(){
         <td class="r num">${eff(c,'cycle')} j${bar('cycle', eff(c,'cycle'))}</td>
         <td class="r num">${c.recS} sem.</td>
         <td class="r num">${nf1.format(eff(c,'rdt'))} kg/m²${bar('rdt', eff(c,'rdt'))}</td>
-        <td class="r num">${nf2.format(eff(c,'prix'))} €/kg${bar('prix', eff(c,'prix'))}</td>
+        <td class="r num">${nf2.format(baseEstim(c))} €/kg${bar('prix', baseEstim(c))}${DERNIER[c.id] ? `<span class="hbar-t small muted">relevé DAAF ${nf2.format(DERNIER[c.id].prix)} € le ${fd(DERNIER[c.id].d)}</span>` : '<span class="hbar-t small muted">estimation</span>'}</td>
         <td class="r num">${nf1.format(eff(c,'cout'))} €/m²<span class="hbar-t small muted">dont plants ${nf1.format(eff(c,'pl'))} €</span></td>
         <td class="r num">${nf0.format(eff(c,'h'))} h${bar('h', eff(c,'h'))}</td>
         <td class="r"><span class="verdict ${anim(an)}">${nf0.format(an*100)} %</span></td>
         <td><span class="verdict ${pc}">${pl}</span></td>
         <td class="wrap">${esc(c.nuis)}</td></tr>`; }).join('');
   }
-  $('#hypTable').innerHTML = `<thead><tr><th scope="col">Légume</th><th class="r">Plantation → récolte</th><th class="r">Récolte pendant</th><th class="r">Rendement</th><th class="r">Prix moyen à Cayenne</th><th class="r">Intrants</th><th class="r">Travail pour 100 m²</th><th class="r">Pertes animaux</th><th>Pluie</th><th>Principaux nuisibles</th></tr></thead><tbody>${rows}</tbody>`;
+  $('#hypTable').innerHTML = `<thead><tr><th scope="col">Légume</th><th class="r">Plantation → récolte</th><th class="r">Récolte pendant</th><th class="r">Rendement</th><th class="r">Prix moyen sur l’année à Cayenne</th><th class="r">Intrants</th><th class="r">Travail pour 100 m²</th><th class="r">Pertes animaux</th><th>Pluie</th><th>Principaux nuisibles</th></tr></thead><tbody>${rows}</tbody>`;
   const pi = plantsIdx(new Date());
   $('#hypNote').textContent = `Semences et plants : indice IPAMPA ${nf1.format(PLANTS_IDX[2024])} en 2024 (base 100 en 2020), tendance ${sgn(pi.pct*100)} % par an, appliquée à la date de plantation. Engrais non indexés. Heure de travail : ${nf2.format(state.taux)} € (SMIC brut) si vous comptez votre temps.`;
 }
@@ -843,7 +869,7 @@ function renderFuel(){
 
 /* ---------- Infobulles et clics ---------- */
 const tip = $('#tip');
-function showTip(html, x, y){ tip.innerHTML = html; tip.hidden = false; const r = tip.getBoundingClientRect(); let L = x+14, T = y+14; if (L + r.width > innerWidth-8) L = x - r.width - 14; if (T + r.height > innerHeight-8) T = y - r.height - 14; tip.style.left = Math.max(8,L)+'px'; tip.style.top = Math.max(8,T)+'px'; }
+function showTip(html, x, y){ tip.innerHTML = html; tip.hidden = false; const r = tip.getBoundingClientRect(); let L = x+14, T = y - r.height - 14; if (L + r.width > innerWidth-8) L = x - r.width - 14; if (T < 8) T = y + 18; tip.style.left = Math.max(8,L)+'px'; tip.style.top = Math.max(8,T)+'px'; }
 function hideTip(){ tip.hidden = true; }
 function cellTip(cid, w){ const s = GRID[cid][w]; return `<b>${esc(s.c.nom)}</b> · plantation semaine du ${fd(weekDate(w))}<br>Récolte : ${fd(weekDate(s.h0))} → ${fd(weekDate(s.h1+1))}<br>Marge moyenne : <b>${eur(total(s.marge))}</b> (${eur(total(s.parMois))}/mois)<br>Rentable ${s.rentables} ans sur 10 · année difficile : ${eur(total(s.margeP20))}<br>Prix de revient ${nf2.format(s.prixRevient)} €/kg · vendre à ${esc(s.best.m.nom)} ${nf2.format(s.best.prix)} €/kg`; }
 const goDetail = () => $('#detail').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
@@ -858,6 +884,9 @@ $('#bars').addEventListener('click', e=>{ const el = e.target.closest('.col'); i
 $('#rain').addEventListener('pointermove', e=>{ const el = e.target.closest('.rb'); if (!el){ hideTip(); return; } const w = +el.dataset.rain; let p=0, t=0, lo=1e9, hi=0; for (let k=0;k<NY;k++){ const cl = clim(w,k); p += cl.pluieSem; t += cl.tmoy; lo = Math.min(lo, cl.pluieSem); hi = Math.max(hi, cl.pluieSem); }
   showTip(`Semaine du ${fd(weekDate(w))}<br>Pluie moyenne (11 saisons) : <b>${nf0.format(p/NY)} mm</b><br>selon l’année : ${nf0.format(lo)} à ${nf0.format(hi)} mm · ${nf1.format(t/NY)} °C`, e.clientX, e.clientY); });
 $('#rain').addEventListener('pointerleave', hideTip);
+document.addEventListener('pointermove', e=>{ if (!tip.hidden && !e.target.closest('#heat, #bars, #rain')) hideTip(); }, {passive:true});
+document.addEventListener('pointerdown', e=>{ if (!e.target.closest('#heat, #bars, #rain')) hideTip(); }, {passive:true});
+window.addEventListener('scroll', hideTip, {passive:true});
 
 /* ---------- Mise à jour ---------- */
 function update(){ computeFuel(); resolveLoc(); syncControls(); buildCal(); computeAll(); renderStatus(); renderNow(); renderHeat(); renderDetail(); renderClimate(); renderHyp(); renderEnso(); renderCarnet(); save(); }
@@ -912,7 +941,10 @@ function appliquerArchives({climat:cj, mercuriales:mj, carburant:fj, enso:ej}){
   if (ej && ej.saisons && ej.prevision && plusRecent(ej, ENSO)){ ENSO = ej; changed = true; }
   if (cj && cj.stations && ['cay','kou','slm','stg','mar'].every(id=>cj.stations[id] && cj.stations[id].annees) && plusRecent(cj, CLIMAT)){ CLIMAT = cj; for (const k in SER) delete SER[k]; changed = true; }
   if (fj && fj.mois && plusRecent(fj, CARBU) && Object.keys(fj.mois).length >= Object.keys(CARBU.mois).length){ CARBU = fj; changed = true; }
-  if (mj && Array.isArray(mj.releves) && mj.releves.length && (!OFFICIEL.maj || !mj.maj || mj.maj >= OFFICIEL.maj)){ OFFICIEL = {maj:mj.maj||null, releves:mj.releves.filter(r=>r && CROP[r.produit] && MKT[r.marche] && +r.prix>0)}; changed = true; }
+  if (mj && Array.isArray(mj.releves) && mj.releves.length && plusRecent(mj, OFFICIEL)){
+    const rel = mj.releves.filter(r=>r && CROP[r.produit] && (!r.marche || r.marche==='guyane' || MKT[r.marche]) && +r.prix>0);
+    if (rel.length){ OFFICIEL = {maj:mj.maj||null, releves:rel, familles:Array.isArray(mj.familles) ? mj.familles : (OFFICIEL.familles||[])}; changed = true; }
+  }
   if (changed){ const keep = state.week; update(); state.week = keep; renderDetail(); markHeatSel(); }
 }
 Promise.all([getJSON('data/climat.json'), getJSON('data/mercuriales.json'), getJSON('data/carburant.json'), getJSON('data/enso.json')])

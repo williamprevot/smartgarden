@@ -28,6 +28,7 @@ js/app.js                — calculs et affichage (modèle climat, marchés, car
 js/cloud.js              — comptes et sauvegarde en ligne (Supabase)
 js/config.js             — les 2 clés Supabase à renseigner
 data/*.json              — archives de départ : climat, carburant, El Niño, mercuriales
+outils/importer_mercuriales.py — ajoute les PDF de mercuriales DAAF à data/mercuriales.json
 sw.js                    — fonctionnement hors connexion
 manifest.webmanifest     — installation sur téléphone
 img/                     — icônes
@@ -103,6 +104,29 @@ mercredi et samedi par une tâche planifiée Claude. L'appli lit d'abord `data/*
 connectez le connecteur Supabase dans Claude.
 
 Mise à jour à la main : remplacez les fichiers de `data/`, puis `git push`.
+
+### Ajouter des mercuriales DAAF
+
+Chaque samedi, la DAAF Guyane publie deux PDF : « Relevé des prix des marchés de Guyane »
+(prix moyen de chaque produit, minimum, maximum, prix le plus observé) et « Marchés de Guyane :
+prix des fruits et légumes » (prix par famille dans chaque marché). L'appli utilise les deux :
+le premier donne le prix de chaque légume, le second l'écart de prix entre Cayenne centre,
+les marchés producteurs de l'île de Cayenne, Kourou et Saint-Laurent.
+
+1. Téléchargez les PDF des semaines voulues dans un dossier, par exemple `mercuriales_pdf/`
+   (ce dossier n'est pas envoyé sur GitHub).
+2. Dans le terminal de VS Code, depuis le dossier du projet :
+   ```
+   pip install pdfplumber
+   python outils/importer_mercuriales.py mercuriales_pdf
+   ```
+   Le script reconnaît seul les deux types de PDF, ajoute les semaines nouvelles et ignore
+   celles déjà présentes.
+3. `git add data/mercuriales.json`, `git commit -m "Mercuriales"`, `git push`.
+
+Plus il y a de semaines (idéalement depuis 2023), plus l'appli connaît la vraie saisonnalité
+de chaque légume : dès 9 mois couverts, elle utilise la courbe de prix réelle mois par mois.
+La correspondance entre les légumes de l'appli et les libellés DAAF est en tête du script.
 
 ## Limites de l'offre gratuite
 

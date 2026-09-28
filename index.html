@@ -281,6 +281,7 @@
       <div>
         <div class="chart-title">Où vendre <span id="mktSub"></span></div>
         <div class="scroll-x"><table id="mkt"></table></div>
+        <p class="small muted" id="mktDaaf" style="margin:8px 0 0"></p>
         <p class="note" id="mktNote"></p>
       </div>
       <div>
@@ -341,7 +342,7 @@
           <li><b>Durée de culture.</b> Durée de référence en bonnes conditions, allongée quand le ciel est couvert ou quand la température sort de la plage idéale.</li>
           <li><b>Sol.</b> D'après la géologie du BRGM, chaque lieu a un sol de terre haute (socle ferrallitique ou sable blanc de savane) et un sol de terre basse (argile marine, pégasse ou alluvions). La part de la parcelle en terre basse mélange les deux : un sol mal drainé aggrave l'excès de pluie, un sable sèche plus vite et demande plus d'eau.</li>
           <li><b>Rendement.</b> Rendement de référence, réduit semaine par semaine par l'excès de pluie, l'humidité (maladies), le manque d'eau sans irrigation et la chaleur, puis par les animaux et ravageurs et par la rotation : une solanacée replantée moins de deux ans après une autre au même endroit risque le flétrissement bactérien.</li>
-          <li><b>Prix.</b> Prix de référence multiplié par la saisonnalité : rareté en grande saison des pluies, abondance en saison sèche, hausse avant Pâques et Pentecôte pour les légumes du bouillon d'awara. Le prix réagit aussi à la production : quand la météo fait chuter les récoltes de tous, il monte, et il baisse quand tout le monde récolte bien (élasticité 0,4). S'y ajoute un aléa de marché de ±15 % (surproduction, arrivages d'importation). Les mercuriales de la DAAF remplacent ces estimations dès qu'elles sont intégrées, et l'aléa est alors mesuré sur les relevés.</li>
+          <li><b>Prix.</b> Prix de référence multiplié par la saisonnalité : rareté en grande saison des pluies, abondance en saison sèche, hausse avant Pâques et Pentecôte pour les légumes du bouillon d'awara. Le prix réagit aussi à la production : quand la météo fait chuter les récoltes de tous, il monte, et il baisse quand tout le monde récolte bien (élasticité 0,4). S'y ajoute un aléa de marché de ±15 % (surproduction, arrivages d'importation). Les mercuriales hebdomadaires de la DAAF remplacent ces estimations : prix moyen de chaque légume en Guyane, puis écart de prix relevé entre Cayenne centre, les marchés producteurs de l'île de Cayenne, Kourou et Saint-Laurent. Dès qu'il y a assez de semaines, l'aléa est mesuré sur les relevés.</li>
           <li><b>Marché et transport.</b> Distance par la route entre votre exploitation et chaque marché, allers-retours pendant la récolte, consommation de votre véhicule, prix du carburant prévu à la date de récolte (prix préfectoral du mois + tendance des cinq dernières années), usure du véhicule et frais de place. L'appli retient le marché qui vous laisse le plus d'argent.</li>
           <li><b>Marge.</b> Récolte vendue × prix − transport − intrants (semences et plants au prix prévu à la plantation, selon leur hausse récente) − pompage de l'eau au gazole − abri − main-d'œuvre (heures de culture et de vente, au SMIC ou non comptées). Le prix de revient est le prix de vente minimum pour tout couvrir ; l'appli indique aussi ce que rapporte une heure de votre travail.</li>
           <li><b>Votre carnet.</b> Chaque récolte que vous notez est comparée à la prévision : l'appli recale le rendement de cette culture pour votre ferme. Vos ventes s'ajoutent aux prix du marché.</li>
@@ -349,7 +350,7 @@
         </ol>
         <h3>Limites</h3>
         <ul>
-          <li>Rendements, coûts, pertes animales et prix de départ sont des estimations. Ajustez-les avec vos chiffres ; les mercuriales remplaceront les prix.</li>
+          <li>Rendements, coûts et pertes animales sont des estimations : ajustez-les avec vos chiffres. Les prix viennent des mercuriales DAAF pour chaque légume relevé.</li>
           <li>Vérifiez que vos débouchés peuvent absorber les volumes, surtout pour les légumes-feuilles, et réglez la part de la récolte vendue.</li>
           <li>Si beaucoup d'agriculteurs plantent la même culture la même semaine, le prix à la récolte baissera. Étalez vos semis et variez les cultures.</li>
           <li>Distances routières calculées sur les grands axes (RN1, RN2 et routes départementales) : comptez ±10 %. La piste jusqu'à la route est estimée à vol d'oiseau + 30 %.</li>
@@ -375,7 +376,7 @@
           <li>El Niño / La Niña : NOAA Climate Prediction Center et IRI (prévision mensuelle) ; effets en Guyane : Météo-France Guyane.</li>
           <li>Sols : grands domaines géologiques du BRGM (socle, plaine côtière ancienne Coswine, plaine côtière récente Demerara, alluvions).</li>
           <li>Semences et plants : indice IPAMPA (Agreste). Main-d'œuvre : SMIC horaire brut au 1er juin 2026 (12,31 €).</li>
-          <li>Prix : mercuriales hebdomadaires de la DAAF Guyane quand elles sont intégrées ; sinon estimations de départ.</li>
+          <li>Prix : mercuriales hebdomadaires de la DAAF Guyane (prix moyen par légume, écart entre marchés) ; estimation de départ pour un légume sans relevé.</li>
         </ul>
       </div>
     </div>
