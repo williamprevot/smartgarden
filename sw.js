@@ -1,6 +1,6 @@
 /* Fonctionnement hors connexion : l'appli s'ouvre même sans réseau au champ.
    Changez VERSION à chaque mise en ligne pour que les téléphones prennent la nouvelle version. */
-const VERSION = 'smartgarden-v9';
+const VERSION = 'smartgarden-v10';
 const COQUILLE = ['./', 'index.html', 'css/styles.css', 'js/config.js', 'js/app.js', 'js/cloud.js', 'manifest.webmanifest', 'img/favicon.svg', 'img/icon-192.png', 'img/icon-512.png', 'confidentialite.html'];
 
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(COQUILLE)).then(() => self.skipWaiting())); });

@@ -632,9 +632,11 @@ function renderNow(){
 }
 
 /* ---------- Calendrier ---------- */
+const seuilZero = maxAbs => Math.max(10, maxAbs*.003); // en dessous : « ≈ 0 »
 function colorFor(v, maxAbs){
   if (!isFinite(v) || maxAbs<=0) return 'var(--cell-0)';
-  const t = v/maxAbs, a = Math.abs(t); if (a < .04) return 'var(--cell-0)';
+  if (Math.abs(v) < seuilZero(maxAbs)) return 'var(--cell-0)';
+  const t = v/maxAbs, a = Math.sqrt(Math.abs(t)); // échelle racine : les petits gains restent visibles à côté des très gros
   const step = a < .2 ? 1 : a < .4 ? 2 : a < .6 ? 3 : a < .8 ? 4 : 5;
   return `var(--${t>0?'p':'n'}${step})`;
 }
@@ -656,7 +658,7 @@ function renderHeat(){
   const lab = (state.metric==='mois' ? 'Marge par mois de terrain occupé' : 'Marge par récolte') + (state.scenario==='prudent' ? ', année difficile' : ', année normale');
   $('#heatLegend').innerHTML = `<span>${lab} (${nf0.format(state.surface)} m²) :</span>
     ${mn<0?`<span class="sw"><i style="background:var(--n5)"></i><i style="background:var(--n3)"></i><i style="background:var(--n1)"></i></span><span>perte jusqu'à <b class="perte">${eur(mn)}</b></span>`:''}
-    <span class="sw"><i style="background:var(--cell-0)"></i></span><span>≈ 0</span>
+    <span class="sw"><i style="background:var(--cell-0)"></i></span><span>≈ 0 (moins de ${eur(seuilZero(Math.max(mx, -mn)))})</span>
     <span class="sw"><i style="background:var(--p1)"></i><i style="background:var(--p3)"></i><i style="background:var(--p5)"></i></span><span>gain jusqu'à <b class="gain">${eur(mx)}</b></span>
     <span><span class="bestmk"></span>meilleure semaine</span>`;
 }
